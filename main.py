@@ -3,21 +3,18 @@ from numpy import sin, cos, pi
 import matplotlib.pyplot as plt
 from scipy.special import roots_legendre # coefficients for Gauss-Legendre quadrature rule
 from init_conditions import *
-import matplotlib.ticker as ticker
 
-
-########## Initial Conditions ##########
+########## Conditions of the system ##########
 
 a = 1               # radius of the ring
 I = 1               # current
 w = 100             # angular velocity of the current
 c = 10000           # speed of light
-n_int = 40          # number of integration points
+
+########## Integration parameters ##########
+
+n_int = 50          # number of integration points
 delta = 0.001 / 2   # differential step size
-
-# x, y, z, t = 10*a, 0, 0, 1 # position and time of the observer
-
-########## Integration points ##########
 
 phis, dp = roots_legendre(n_int)    # Gauss-Legendre quadrature rule
 phis = (phis + 1) * pi / 2          # phi values
@@ -47,6 +44,19 @@ def A_compute(x, y, z, t):
     return integrate(lambda phi: intergrand(x, y, z, t, phi), phis, dp) / c**2
     return integrate(lambda phi: intergrand(x, y, z, t, phi), phis, dp)
 
+def Afield(x, y, z, t):
+    nphi = n_int
+    dp = 2*pi/nphi
+    A = np.array([0., 0., 0.])
+    r = np.array([x, y, z])
+    for ip in range(nphi):
+        p = ip * dp
+        rp = np.array([cos(p), sin(p), 0.])
+        ep = np.array([-sin(p), cos(p), 0.])
+        dist = np.linalg.norm(r - rp)
+        tr = t - dist/c
+        A += (tr>0) * sin(w*tr)/ dist * ep * dp
+    return A / c**2 * a * I
 
 ########## Partial derivatives of A ##########
 
@@ -81,8 +91,8 @@ def B_compute(x, y, z, t, d):
 
 ########## Plot ##########
 
-def plot(x, y, z, t):
-    t = np.linspace(t, t + 8 * pi / w, 100)
+def plot(x, y, z, t0):
+    t = np.linspace(t0, t0 + 8 * pi / w, 100)
 
     grid1 = np.zeros((len(t), 3))
     grid2 = np.zeros((len(t), 3))
@@ -126,8 +136,11 @@ def distance(x, y, z, phi):
 ########## Main ##########
 
 def main():
-    x, y, z, t = 1000*a, 0, 0, 0
-    plot(x, y, z, t)
+    x, y, z, t0 = 10*a, 0, 0, 0
+    plot(x, y, z, t0)
+    T = np.linspace(0, 2*pi/w, 10)
+    for t in T:
+        A_compute(x, y, z, t)
 
 ##########################
 
