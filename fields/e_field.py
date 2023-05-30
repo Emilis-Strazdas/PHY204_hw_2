@@ -1,3 +1,7 @@
+"""
+Calculates the electric field E at a point (x, y, z) and time t.
+"""
+
 from fields.a_diffs import diff_A_t
 
 def E_compute(x, y, z, t):

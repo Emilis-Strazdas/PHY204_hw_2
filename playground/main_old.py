@@ -19,8 +19,8 @@ C = 10000           # speed of light
 
 ########## Integration parameters ##########
 
-n_int = 50          # number of integration points
-delta = 0.001 / 2   # differential step size
+n_int = 40          # number of integration points
+delta = 0.0001 / 2  # differential step size
 
 phis, dp = roots_legendre(n_int)    # Gauss-Legendre quadrature rule
 phis = (phis + 1) * pi              # Adjust phi values
@@ -132,16 +132,16 @@ def plot(x, y, z, t0):
     fig, ax1 = plt.subplots()
     ax1.set_xlabel('$t$, $s$')
 
-    ax1.plot(t, grid1[:, 0], label='$B_x$', color=(0/255,   0/255, 255/255), linestyle='solid')
+    ax1.plot(t, grid1[:, 0], label='$B_x$', color=(0/255,   0/255, 255/255), linestyle='dotted')
     ax1.plot(t, grid1[:, 1], label='$B_y$', color=(0/255, 128/255, 255/255), linestyle='dashed')
-    ax1.plot(t, grid1[:, 2], label='$B_z$', color=(0/255, 255/255, 255/255), linestyle='dotted')
+    ax1.plot(t, grid1[:, 2], label='$B_z$', color=(0/255, 255/255, 255/255), linestyle='solid')
     ax1.set_ylabel('$B$, $G$')
     ax1.yaxis.set_major_formatter(formatter)
 
     ax2 = ax1.twinx()
-    ax2.plot(t, grid2[:, 0], label='$E_x$', color=(255/255,   0/255, 0/255), linestyle='solid')
+    ax2.plot(t, grid2[:, 0], label='$E_x$', color=(255/255,   0/255, 0/255), linestyle='dotted')
     ax2.plot(t, grid2[:, 1], label='$E_y$', color=(255/255, 128/255, 0/255), linestyle='dashed')
-    ax2.plot(t, grid2[:, 2], label='$E_z$', color=(255/255, 255/255, 0/255), linestyle='dotted')
+    ax2.plot(t, grid2[:, 2], label='$E_z$', color=(255/255, 255/255, 0/255), linestyle='solid')
     ax2.set_ylabel(r'$E$, $\frac{statV}{cm}$')
     ax2.yaxis.set_major_formatter(formatter)
 
@@ -159,12 +159,8 @@ def distance(x, y, z, phi):
 ########## Main ##########
 
 def main():
-    X, Y, Z, T0 = 10*A, 0, 0, 0
+    X, Y, Z, T0 = 1000*A, 0, 0, 0
     plot(X, Y, Z, T0)
-    n = 5
-    T = np.linspace(1e-10, 2*pi/W, n)
-    for t in T:
-        A_compute(X, Y, Z, t)
 
 ##########################
 

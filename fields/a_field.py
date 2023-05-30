@@ -1,13 +1,28 @@
+"""
+Calculates the vecotr potential A at a point (x, y, z) and time t.
+"""
+
+########## Imports ##########
+
 import numpy as np
-from numpy import sin, cos, pi
+from numpy import sin, cos
 from utils.distance import distance
 from utils.initial_conditions import *
-from scipy.special.orthogonal import roots_legendre
 from utils.integration import integrate
 
-
+########## Functions ##########
 
 def A_compute(x, y, z, t):
+    """
+    Calculates the vector potential A of the magnetic field B.
+
+    Args:
+        x, y, z: coordinates of the point where the vector potential is calculated
+        t: time
+    
+    Returns:
+        The vector potential A of the magnetic field B
+    """
     Int = integrate(lambda phi: integrand(x, y, z, t, phi))
     return I * A / (C**2) * Int
 

@@ -1,5 +1,13 @@
+"""
+Calculates the magnetic field B at a point (x, y, z) and time t.
+"""
+
+########## Imports ##########
+
 import numpy as np
 from fields.a_diffs import *
+
+########## Functions ##########
 
 def B_compute(x, y, z, t):
     """
