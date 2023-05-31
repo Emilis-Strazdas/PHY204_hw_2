@@ -11,4 +11,4 @@ C = 10000           # speed of light
 
 ########## Point where the fields are calculated ##########
 
-X, Y, Z, T0 = 1000*A, 0, 0, 0
+X, Y, Z, T0 = round(( 1 + 9 / 10000 * C)*A, 4), 0, 0, 0

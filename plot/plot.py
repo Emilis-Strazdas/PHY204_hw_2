@@ -32,7 +32,7 @@ def plot(x, y, z, t0):
     Returns:
         None
     """
-    t = np.linspace(t0, t0 + 8 * pi / W, 100)
+    t = np.linspace(t0, t0 + 5 * 2 * pi / W, 200)
 
     grid1 = np.zeros((len(t), 3))
     grid2 = np.zeros((len(t), 3))
@@ -40,6 +40,16 @@ def plot(x, y, z, t0):
     for i in range(len(t)):
         grid1[i,:] = B_compute(x, y, z, t[i])
         grid2[i,:] = E_compute(x, y, z, t[i])
+
+    for i in range(len(t)):
+        if np.linalg.norm(grid1[i,:]) > 0:
+            grid1[i,:] = 0
+            break
+
+    for i in range(len(t)):
+        if np.linalg.norm(grid2[i,:]) > 0:
+            grid2[i,:] = 0
+            break
 
     fig, ax1 = plt.subplots()
     ax1.set_xlabel('$t$, $s$')
@@ -58,7 +68,7 @@ def plot(x, y, z, t0):
     ax2.yaxis.set_major_formatter(formatter)
 
     fig.legend()  # Adjust the legend position
-    plt.title(f'Position: r = ({x}, {y}, {z}), $t_0$ = {t[0]}')
+    plt.title(f'Position: r = ({x}, {y}, {z}), $t_0$ = {t[0]}, c = {C}')
 
     plt.tight_layout()
     plt.show()
